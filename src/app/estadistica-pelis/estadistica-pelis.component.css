@@ -1,0 +1,8 @@
+.bar {
+    fill: steelblue;
+}
+.label {
+    fill: #000;
+    font: 12px sans-serif;
+    text-anchor: end;
+}

@@ -1,0 +1,84 @@
+.card-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.card {
+    flex: 0 0 calc(33% - 30px); /* Calcula el ancho como el 33% del contenedor menos 10px */
+    margin: 15px !important; /* Añade un pequeño margen para separar los elementos, ajusta según sea necesario */
+    box-sizing: border-box;
+    padding: 10px;
+    border: solid 1px #AAA !important;
+}
+
+
+button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+  }
+  
+  /* Estilo para el botón de la página actual (deshabilitado) */
+button[disabled] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  
+  /* Estilo para botones al pasar el mouse, excluyendo el deshabilitado */
+button:not([disabled]):hover {
+    background-color: #0056b3;
+    color: #fff;
+  }
+
+
+.descripcion-limite {
+    width: 100%; /* Ajusta esto según el ancho deseado */
+    height: 90px; /* Ajusta para controlar la altura y, por ende, el texto visible */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-img-top {
+    max-height: 200px;
+    width: max-content;
+    margin: 0 auto;
+}
+
+
+
+
+
+.popup-casero {
+  position: fixed; /* Posicionamiento fijo respecto al viewport */
+  left: 50%; /* Centrado horizontal */
+  top: 50%; /* Centrado vertical */
+  transform: translate(-50%, -50%); /* Ajuste fino del centrado */
+  width: 80%; /* Ancho del popup */
+  max-width: 600px; /* Ancho máximo para grandes pantallas */
+  padding: 20px; /* Espaciado interno */
+  background-color: white; /* Fondo del popup */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra para destacar */
+  z-index: 1000; /* Asegura que el popup esté sobre otros elementos */
+}
+/* Fondo semi-transparente detrás del popup para efecto modal */
+.popup-casero-fondo {
+  position: fixed; /* Posicionamiento fijo respecto al viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Cobertura completa del ancho */
+  height: 100%; /* Cobertura completa del alto */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparencia */
+  z-index: 999; /* Justo debajo del popup para permitir interacción */
+}
+.popup-casero img {
+  max-height: 100px;
+}

@@ -1,0 +1,94 @@
+<p>lista-anime works!</p>
+
+
+
+
+
+
+<div id="test">
+
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+          <span class="input-group-text" id="inputGroup-sizing-sm">Small</span>
+
+        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+      </div>
+      <div class="col-6">
+ 
+          <label class="input-group-text" for="inputGroupSelect01">Options</label>
+ 
+        <select class="custom-select" id="inputGroupSelect01">
+          <option selected>Choose...</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+
+
+      </div>
+      <div class="col">
+        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button>
+      </div>
+    </div>
+
+
+
+
+
+  {{ visible }}
+  <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000">
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+  </p-dialog>
+
+  
+</div>
+
+
+<div class="card-group">
+
+  @for (comic of registrosPaginados; track comic.id) {
+    <div class="card">
+      <img class="card-img-top" src="{{comic.imagen}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{comic.nombre}}</h5>
+        <p class="card-text descripcion-limite">{{comic.descripcion}}</p>
+        <p class="card-text"><small class="text-muted">{{comic.autor}}</small></p>
+        <p-button (click)="verDetalles(comic.id)">Detalles</p-button>
+
+      </div>
+    </div>
+  } @empty {
+    Empty list of comics
+  }
+
+</div>
+
+<div>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(this.paginaActual - 1)">Atras</button>
+  <button disabled>{{ paginaActual }}</button>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(this.paginaActual + 1)">Adelante</button>
+</div>
+
+<hr>
+
+<div>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(1)">|<</button>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(paginaActual - 1)"><</button>
+  <ng-container *ngFor="let pag of arrayPaginas">
+    <button *ngIf="pag <= paginaActual + 2 && pag >= paginaActual - 2" [disabled]="pag === paginaActual" (click)="cambiarPagina(pag)">
+      {{ pag }}
+    </button>
+  </ng-container>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(paginaActual + 1)">></button>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(paginasTotales)">>|</button>
+</div>
+
+

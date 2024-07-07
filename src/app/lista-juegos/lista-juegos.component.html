@@ -1,0 +1,121 @@
+<p>Juegos</p>
+
+
+
+<div id="test">
+  <div *ngIf="juegoSelected" class="popup-casero-fondo"></div>
+  <div *ngIf="juegoSelected" class="popup-casero">
+    <div *ngIf="!editando">
+      <p><b>Nombre:</b> {{ juegoSelected.nombre }}</p>
+      <p><img src="{{juegoSelected.imagen}}" alt=""></p>
+      <p><b>Autor:</b> {{ juegoSelected.autor }}</p>
+      <p><b>Descripción:</b> {{ juegoSelected.descripcion }}</p>
+    </div>
+    <div *ngIf="!editando">
+      <p-button (click)="cerrarPopup()" label="Cerrar"></p-button>
+      <p-button (click)="editarJuego()" label="Editar"></p-button>
+      <p-button (click)="borrarJuego()" label="Borrar"></p-button>
+    </div>
+    <div *ngIf="editando">
+      <h2>Ficha de edición</h2>
+      Nombre
+      <input [(ngModel)]="editarTitulo" type="text" class="form-control" aria-label="Editar Titulo" aria-describedby="inputGroup-sizing-sm">
+      Nombre
+      <input [(ngModel)]="editarPlataformas" type="text" class="form-control" aria-label="Editar Titulo" aria-describedby="inputGroup-sizing-sm">
+      Nombre
+      <input [(ngModel)]="editarGeneros" type="text" class="form-control" aria-label="Editar Titulo" aria-describedby="inputGroup-sizing-sm">
+      Imagen
+      <input [(ngModel)]="editarImagen" type="text" class="form-control" aria-label="Editar Imagen" aria-describedby="inputGroup-sizing-sm">
+      <input class="form-control" type="file" (change)="subirImagen($event)" id="fileInput">
+     Descripcion
+      <input [(ngModel)]="editarDescripcion" type="text" class="form-control" aria-label="Editar Descripcion" aria-describedby="inputGroup-sizing-sm">
+    </div>
+    <div *ngIf="editando">
+      <p-button (click)="guardarEdicion()" label="Guardar"></p-button>
+    </div>
+  </div>
+
+
+
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col">
+        <label class="input-group-text">Nombre del Juego</label>
+        <input [(ngModel)]="busquedaNombre" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+      </div>
+      <div class="col-6">
+        <label class="input-group-text">Plataforma</label>
+        <input [(ngModel)]="busquedaPlataforma" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+      </div>
+      <div class="col-6">
+        <label class="input-group-text">Genero</label>
+        <input [(ngModel)]="busquedaGenero" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+      </div>
+
+      <div class="col">
+        <p-button (click)="filtrarBusqueda()" icon="pi pi-external-link" label="Buscar"></p-button>
+      </div>
+    </div>
+
+
+
+
+
+  {{ visible }}
+  <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000">
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+  </p-dialog>
+
+  
+</div>
+
+
+<div class="card-group">
+
+  @for (juego of registrosPaginados; track juego.id) {
+    <div class="card">
+      <img class="card-img-top" src="{{juego.imagen}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{juego.titulo}}</h5>
+        <p class="card-text descripcion-limite">{{juego.descripcion}}</p>
+        <p class="card-text"><small class="text-muted">{{juego.autor}}</small></p>
+        <p-button (click)="verDetalles(juego.id)">Detalles</p-button>
+      </div>
+    </div>
+  } @empty {
+    Empty list of comics
+  }
+
+</div>
+
+
+
+
+
+
+<div>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(this.paginaActual - 1)">Atras</button>
+  <button disabled>{{ paginaActual }}</button>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(this.paginaActual + 1)">Adelante</button>
+</div>
+
+<hr>
+
+<div>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(1)">|<</button>
+  <button *ngIf="paginaActual > 1" (click)="cambiarPagina(paginaActual - 1)"><</button>
+  <ng-container *ngFor="let pag of arrayPaginas">
+    <button *ngIf="pag <= paginaActual + 2 && pag >= paginaActual - 2" [disabled]="pag === paginaActual" (click)="cambiarPagina(pag)">
+      {{ pag }}
+    </button>
+  </ng-container>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(paginaActual + 1)">></button>
+  <button *ngIf="paginaActual < paginasTotales" (click)="cambiarPagina(paginasTotales)">>|</button>
+</div>
+
+
