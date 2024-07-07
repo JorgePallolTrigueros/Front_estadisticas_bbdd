@@ -133,58 +133,69 @@ export class EstadisticaMangaComponent {
   }
 
   private crearGraficaTreeMap() {
-    const ctx:any = (document.getElementById('treemapChart') as HTMLCanvasElement).getContext('2d');
 
-    const colors = [
-      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-      '#FF9F40', '#FFCD56', '#C9CBCF'
-    ];
+    const url = 'http://localhost:8080/v1/puntosTotalesPorAutorManga';
+  
+    this.http.get(url).subscribe(
+      (response:any) => {
+        const puntosTotalesAutoresManga = response.autoresManga;
 
-    const config:any = {
-      type: 'treemap',
-      data: {
-        datasets: [{
-          label: 'Cantidad por autor',
-          tree: [
-            {autor: 'Pedro', value: 1},
-            {autor: 'Isabel', value: 2},
-            {autor: 'Pablo', value: 13},
-            {autor: 'Juan Rodriguez', value: 4},
-            {autor: 'Luis', value: 5},
-          ],
-          borderColor: 'green',
-          borderWidth: 1,
-          spacing: 1,
-          key: 'value',
-          backgroundColor: (context: any) => {
-            const index = context.dataIndex;
-            return colors[index % colors.length];
-          }
-        }]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'My treemap chart'
+
+        const ctx:any = (document.getElementById('treemapChart') as HTMLCanvasElement).getContext('2d');
+
+        const colors = [
+          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+          '#FF9F40', '#FFCD56', '#C9CBCF'
+        ];
+    
+        const config:any = {
+          type: 'treemap',
+          data: {
+            datasets: [{
+              label: 'Cantidad por autor',
+              tree: puntosTotalesAutoresManga,
+              borderColor: 'green',
+              borderWidth: 1,
+              spacing: 1,
+              key: 'value',
+              backgroundColor: (context: any) => {
+                const index = context.dataIndex;
+                return colors[index % colors.length];
+              }
+            }]
           },
-          legend: {
-            display: true
-          },
-          tooltip: {
-            callbacks: {
-              label: (context:any) => {
-                console.log(context);
-                const item = context.raw._data;
-                return `${item.autor}, Cantidad: ${item.value}`;
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'My treemap chart'
+              },
+              legend: {
+                display: true
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context:any) => {
+                    console.log(context);
+                    const item = context.raw._data;
+                    return `${item.autor}, Cantidad: ${item.value}`;
+                  }
+                }
               }
             }
-          }
+          },
         }
-      },
-    }
+    
+        new Chart(ctx, config);
 
-    new Chart(ctx, config);
+      },
+      (error:any) => {
+        console.error('Error al obtener los mangas:', error);
+      }
+    );
+ 
+
+
   }
 
   ngAfterViewInit() {
