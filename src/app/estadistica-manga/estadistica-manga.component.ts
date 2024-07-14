@@ -1,7 +1,14 @@
-import { Component } from '@angular/core';
+import { Component , AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Chart } from 'chart.js/auto';
 import {TreemapController, TreemapElement} from 'chartjs-chart-treemap';
+import { WordCloudChart } from 'chartjs-chart-wordcloud';
+
+import { ButtonModule } from 'primeng/button';
+import * as L from 'leaflet'
+
+
+
 
 @Component({
   selector: 'app-estadistica-manga',
@@ -10,7 +17,10 @@ import {TreemapController, TreemapElement} from 'chartjs-chart-treemap';
   templateUrl: './estadistica-manga.component.html',
   styleUrl: './estadistica-manga.component.css'
 })
-export class EstadisticaMangaComponent {
+export class EstadisticaMangaComponent implements  AfterViewInit {
+
+
+
 
   constructor(private http: HttpClient) {
         // Register Chart.js components
@@ -40,6 +50,57 @@ export class EstadisticaMangaComponent {
       }
     );
   }
+
+
+  private pintarMapaWords() {
+
+    const url = 'http://localhost:8080/v1/nbDescripcionesManga';
+
+    this.http.get(url).subscribe(
+      (response:any) => {
+        const dt = response.repeatedWordsCount;
+        const labs = [];
+        const sizes = [];
+        for(let d of dt) {
+          labs.push(d.word);
+          sizes.push(d.count);
+        }
+        const ctx = document.getElementById('mapa-palabras') as HTMLCanvasElement;
+        const config = {
+          type: 'wordCloud',
+          data: {
+            // text
+            labels: labs,
+            datasets: [
+              {
+                label: 'Mapa de palabras...',
+                // size in pixel
+                data: sizes,
+              },
+            ],
+          },
+          options: {
+            
+          },
+        };
+    
+        new WordCloudChart(ctx, config);
+
+      },
+      (error:any) => {
+        console.error('Error al obtener los manga:', error);
+      }
+  );
+
+
+
+
+  }
+
+
+
+
+
 
   private crearGraficaImagenes() {
     const ctx = (document.getElementById('imagenesChart') as any).getContext('2d');
@@ -200,6 +261,7 @@ export class EstadisticaMangaComponent {
 
   ngAfterViewInit() {
     this.getMangasData();
+    this.pintarMapaWords();
     setTimeout(() => {
       this.crearGraficaTreeMap();
     }, 1000);
